@@ -1,0 +1,26 @@
+-- Case 1
+select
+    mn.kode,
+    mn.nama,
+    count(mn.nama),
+    sum(tt.harga_satuan * tt.kuantitas) as total_transaksi
+        from m_nasabah mn
+            left join public.t_transaksi tt on mn.kode = tt.kode
+            group by mn.kode
+            order by total_transaksi desc limit 3;
+
+-- Case 2
+select
+    tt.produk,
+    tt.harga_satuan
+        from t_transaksi tt
+            inner join (
+                select
+                    produk,
+                    min(harga_satuan) as harga_termurah
+                from t_transaksi
+                group by produk
+            ) min_harga on tt.produk = min_harga.produk and tt.harga_satuan = min_harga.harga_termurah
+                group by tt.produk, tt.harga_satuan
+                order by tt.produk;
+
