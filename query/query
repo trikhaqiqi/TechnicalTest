@@ -1,8 +1,8 @@
 -- Case 1
 select
     mn.kode,
-    mn.nama,
-    count(mn.nama),
+    mn.nama as nama_nasabah,
+    count(mn.nama) as frekuensi,
     sum(tt.harga_satuan * tt.kuantitas) as total_transaksi
         from m_nasabah mn
             left join public.t_transaksi tt on mn.kode = tt.kode
